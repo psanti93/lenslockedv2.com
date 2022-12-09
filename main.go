@@ -13,10 +13,7 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "<h1>Contact Page</h1><p> to get in touch email me at <a href=\"mailto:paulsantiago282@gmail.com\">paulsantiago282@gmail.com</a>")
 }
 
-// beneifit is that you'd get access to different fields that get defined in them
-type Router struct{}
-
-func (router Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func pathHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.URL.Path {
 	case "/":
 		homeHandler(w, r)
@@ -28,7 +25,26 @@ func (router Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	var router Router
+	var router http.HandlerFunc
+	router = pathHandler
 	fmt.Println("Starting the server on :3000...")
-	http.ListenAndServe(":3000", router)
+	http.ListenAndServe(":3000", router) //ListenAndServe requires a handler type
 }
+
+// in Go you can use functions like any other data type because of that you can methods to that type
+
+// The HandlerFunc type is an adapter to allow the use of
+// ordinary functions as HTTP handlers. If f is a function
+// with the appropriate signature, HandlerFunc(f) is a
+// Handler that calls f.
+
+// type HandlerFunc func(ResponseWriter, *Request)
+
+// // ServeHTTP calls f(w, r).
+// func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request) {
+// 	f(w, r)
+// }
+
+// Difference
+// http.Handler - interface with ServHTTP method
+// http.HandlerFunc - function type that accepts same args as ServeHTTP method also implements http.Handler
