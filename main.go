@@ -6,11 +6,13 @@ import (
 )
 
 func handlerFunc(w http.ResponseWriter, r *http.Request) {
+	//setting content type
+	w.Header().Set("Content-Type", "text/plain-text; charset=utf-8") //writes out the html on the page
 	fmt.Fprint(w, "<h1>Welcome to my awesome site!</h1>")
 }
 
 func main() {
-	http.HandleFunc("/", handlerFunc) // registers the handler function and executes that function based on the string pattern
+	http.HandleFunc("/", handlerFunc)
 	fmt.Println("Starting the server on :3000...")
-	http.ListenAndServe(":3000", nil) // pass nil here it uses the default serve mux as the handler
+	http.ListenAndServe(":3000", nil)
 }
