@@ -14,7 +14,7 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func faqHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(w, `<h1>FAQ Page</h1>
+	fmt.Fprint(w, `<h1>FAQ Page</h1>
 	<ul>
 		<li>
 			<b> Is there a free version?</b>
