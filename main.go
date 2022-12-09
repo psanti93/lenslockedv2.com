@@ -29,6 +29,7 @@ func main() {
 	router = pathHandler
 	fmt.Println("Starting the server on :3000...")
 	http.ListenAndServe(":3000", router) //ListenAndServe requires a handler type
+	//http.ListenAndServe(":3000", http.HandlerFunc(pathHandler)) //casting pathHandler to type HandlerFunc
 }
 
 // in Go you can use functions like any other data type because of that you can methods to that type
