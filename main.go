@@ -21,8 +21,8 @@ func faqHandler(w http.ResponseWriter, r *http.Request) {
 			No there is Not!
 		</li>
 		<li>
-			<b> How many courses are there?/b>
-			  there are 23 differnt courses
+			<b> How many courses are there?</b>
+			  There are 23 differnt courses
 		</li>
 		<li>
 			<b> How many licks does it take to get to tootsie pop?</b>
