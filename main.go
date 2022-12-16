@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
 )
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
@@ -35,20 +34,11 @@ func faqHandler(w http.ResponseWriter, r *http.Request) {
 	`)
 }
 
-// exercise 1:
-func retreiveUserHandler(w http.ResponseWriter, r *http.Request) {
-	userId := chi.URLParam(r, "userId")
-
-	w.Write([]byte(fmt.Sprintf("Hello %v", userId)))
-}
-
 func main() {
 	r := chi.NewRouter()
-	r.Use(middleware.Logger) //excercise 2: adding the logger middleware
 	r.Get("/", homeHandler)
 	r.Get("/contact", contactHandler)
 	r.Get("/faq", faqHandler)
-	r.Get("/user/{userId}", retreiveUserHandler)
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page Not Found", http.StatusNotFound)
 
