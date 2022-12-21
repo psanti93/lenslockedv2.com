@@ -19,7 +19,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 		return //tells our code to stop running after it doesn't parse correctly
 	}
 
-	if err = tmpl.Execute(w, "a string"); err != nil {
+	if err = tmpl.Execute(w, nil); err != nil {
 		log.Printf("Executing template:%v", err)
 		http.Error(w, "There was an error executing the template", http.StatusInternalServerError)
 		return
@@ -28,7 +28,21 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func contactHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "<h1>Contact Page</h1><p> to get in touch email me at <a href=\"mailto:paulsantiago282@gmail.com\">paulsantiago282@gmail.com</a>")
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+
+	tmpl, err := template.ParseFiles("templates/contact.gohtml")
+	if err != nil {
+		log.Printf("Parsing contact template: %v", err)
+		http.Error(w, "Error parsing contact template", http.StatusInternalServerError)
+		return
+	}
+
+	if err = tmpl.Execute(w, nil); err != nil {
+		log.Printf("Executing template: %v", err)
+		http.Error(w, "Error executing template", http.StatusInternalServerError)
+		return
+	}
+
 }
 
 func faqHandler(w http.ResponseWriter, r *http.Request) {
