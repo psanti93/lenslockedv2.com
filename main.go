@@ -19,7 +19,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 		return //tells our code to stop running after it doesn't parse correctly
 	}
 
-	if err = tmpl.Execute(w, "a string"); err != nil {
+	if err = tmpl.Execute(w, nil); err != nil {
 		log.Printf("Executing template:%v", err)
 		http.Error(w, "There was an error executing the template", http.StatusInternalServerError)
 		return
