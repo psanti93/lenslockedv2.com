@@ -2,13 +2,29 @@ package main
 
 import (
 	"fmt"
+	"html/template"
+	"log"
 	"net/http"
 
 	"github.com/go-chi/chi"
 )
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "<h1>Welcome to my awesome site!</h1>")
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	tmpl, err := template.ParseFiles("templates/home.gohtml")
+
+	if err != nil {
+		log.Printf("Parsing template: %v", err)
+		http.Error(w, "There was an error parsing the template.", http.StatusInternalServerError)
+		return //tells our code to stop running after it doesn't parse correctly
+	}
+
+	if err = tmpl.Execute(w, "a string"); err != nil {
+		log.Printf("Executing template:%v", err)
+		http.Error(w, "There was an error executing the template", http.StatusInternalServerError)
+		return
+	}
+
 }
 
 func contactHandler(w http.ResponseWriter, r *http.Request) {
