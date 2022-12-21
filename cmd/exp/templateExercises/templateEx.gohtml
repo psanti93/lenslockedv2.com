@@ -1,0 +1,32 @@
+<h1>Exercieses</h1>
+
+{{/* adding new fields to the user class */}}
+<h2>Exercise 1 (Accessing New fields in User Example)<h2> 
+ <p> Hello my name is {{.Name}} and I am {{.Age}} years old </p>
+<br>
+{{/* Experiment with different data types  and access*/}}
+<h2>Exercise 2 and 3 (Different Data Types and Nested Example)</h3>
+
+    <h3> Access nested data type - Example<h3>
+    <p> My dog's name is {{.Meta.Pet}} and the number of times I visted him this year is : {{.Meta.Vists}}
+    <br>
+    <h3> Children - Slice Example</h3>
+    <ul> {{range .Children}}
+        <li> {{.}} </li>
+        {{end}}
+    </ul>
+    <br>
+    <h3> Countries and Cities - Map Example (Nested Example) </h3>
+    <ul> {{range $k,$v := .Meta.Cities}}
+        <li> {{$k}} : {{$v}}</li>
+        {{end}}
+    </ul>
+<br>
+<h2>Exercise 4 (if else example)</h2>
+
+<h3> Is it a person? - (IsPerson = true: Paul, IsPerson = false: Chewy)  </h3>
+ {{if .IsPerson }} 
+    <p>It's a Person: {{.Name}}<p>
+{{else }}
+    <p> It's not a Person: {{.Meta.Pet}}
+{{end}}
