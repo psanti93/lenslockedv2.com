@@ -41,22 +41,8 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func faqHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, `<h1>FAQ Page</h1>
-	<ul>
-		<li>
-			<b> Is there a free version?</b>
-			No there is Not!
-		</li>
-		<li>
-			<b> How many courses are there?</b>
-			  There are 23 differnt courses
-		</li>
-		<li>
-			<b> How many licks does it take to get to tootsie pop?</b>
-			364
-		</li>
-	</ul>
-	`)
+	tmplPath := filepath.Join("templates", "faq.gohtml")
+	executeTemplate(w, tmplPath)
 }
 
 func main() {
