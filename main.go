@@ -15,15 +15,15 @@ func main() {
 
 	//parse the template before setting up handlers
 
-	tmpl := views.Must(views.ParseFs(templates.FS, "home.gohtml"))
+	tmpl := views.Must(views.ParseFs(templates.FS, "layout-page.gohtml", "home.gohtml"))
 
 	r.Get("/", controllers.StaticHandler(tmpl))
 
-	tmpl = views.Must(views.ParseFs(templates.FS, "contact.gohtml"))
+	tmpl = views.Must(views.ParseFs(templates.FS, "layout-page.gohtml", "contact.gohtml"))
 
 	r.Get("/contact", controllers.StaticHandler(tmpl))
 
-	tmpl = views.Must(views.ParseFs(templates.FS, "faq.gohtml"))
+	tmpl = views.Must(views.ParseFs(templates.FS, "layout-page.gohtml", "faq.gohtml"))
 
 	r.Get("/faq", controllers.FAQ(tmpl))
 
