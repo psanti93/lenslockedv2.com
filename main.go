@@ -25,7 +25,7 @@ func main() {
 
 	tmpl = views.Must(views.ParseFs(templates.FS, "faq.gohtml"))
 
-	r.Get("/faq", controllers.StaticHandler(tmpl))
+	r.Get("/faq", controllers.FAQ(tmpl))
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page Not Found", http.StatusNotFound)
