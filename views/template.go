@@ -7,6 +7,14 @@ import (
 	"net/http"
 )
 
+func Must(t Template, err error) Template {
+	if err != nil {
+		panic(err) //panics should be use when something went wrong that you can't recover from
+	}
+
+	return t
+}
+
 func Parse(filepath string) (Template, error) {
 	tmpl, err := template.ParseFiles(filepath)
 
