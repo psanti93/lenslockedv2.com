@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
@@ -12,9 +11,7 @@ import (
 )
 
 func executeTemplate(w http.ResponseWriter, filepath string) {
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	tmpl, err := template.ParseFiles(filepath)
+	tmpl, err := views.Parse(filepath)
 
 	if err != nil {
 		log.Printf("Parsing template: %v", err)
@@ -22,11 +19,7 @@ func executeTemplate(w http.ResponseWriter, filepath string) {
 		return
 	}
 
-	viewTmpl := views.Template{
-		HTMLTmpl: tmpl,
-	}
-
-	viewTmpl.Execute(w, nil)
+	tmpl.Execute(w, nil)
 
 }
 
