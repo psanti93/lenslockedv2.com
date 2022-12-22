@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 
 	"github.com/go-chi/chi"
+	"github.com/psanti93/lenslockedv2.com/views"
 )
 
 func executeTemplate(w http.ResponseWriter, filepath string) {
@@ -21,11 +22,11 @@ func executeTemplate(w http.ResponseWriter, filepath string) {
 		return
 	}
 
-	if err = tmpl.Execute(w, nil); err != nil {
-		log.Printf("Executing template:%v", err)
-		http.Error(w, "There was an error executing the template", http.StatusInternalServerError)
-		return
+	viewTmpl := views.Template{
+		HTMLTmpl: tmpl,
 	}
+
+	viewTmpl.Execute(w, nil)
 
 }
 
