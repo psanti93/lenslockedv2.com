@@ -33,7 +33,7 @@ func FAQ(tmpl views.Template) http.HandlerFunc {
 		},
 		{
 			Question: "How do I contact support?",
-			Answer:   `Email us - <a href="paulsantiago@gmail.com">paulysupport@gmail.com</a>`,
+			Answer:   `Email us - <a class="underline" href="paulsantiago@gmail.com">paulysupport@gmail.com</a>`,
 		},
 	}
 
