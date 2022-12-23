@@ -1,12 +1,14 @@
 {{template "header" .}}
-<h1 class="py-4 text-4xl semibold tracking-tight">FAQ Page</h1>
-	<ul class="grid grid-cols-2 gap-16">
-		<!--takes the entire question struct -->
-		{{range .}} 
-			<!-- renders the qa template, passes each item in the struct to it -->
-			{{template "qa" .}}
-		{{end}}
-	</ul>
+<div class="px-6">
+	<h1 class="py-4 text-4xl semibold tracking-tight">FAQ Page</h1>
+		<ul class="grid grid-cols-2 gap-16">
+			<!--takes the entire question struct -->
+			{{range .}} 
+				<!-- renders the qa template, passes each item in the struct to it -->
+				{{template "qa" .}}
+			{{end}}
+		</ul>
+</div>
 {{template "footer" .}}
 	
 	<!-- defines the qa template -->

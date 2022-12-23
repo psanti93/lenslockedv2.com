@@ -7,7 +7,6 @@
   <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
- <div class="px-6">
    <header class="bg-gradient-to-r from-blue-800 to-indigo-800 text-white" >
       <nav class="px-8 py-6 flex items-center">
          <div class="text-4xl pr-12 font-serif">Lenslocked</div>
@@ -18,19 +17,24 @@
          </div>
          <div>
             <a class="pr-4" href="#">Sign in</a>
-            <a class="px-4 py-2 bg-blue-700 hover:bg-blue-600 rounded" href="#">Sign up</a>
+            <a class="px-4 py-2 bg-blue-700 hover:bg-blue-600 rounded" href="/signUp">Sign up</a>
          </div>
        </nav>
     </header>
-    </div>
-    
 {{end}}
 
 <!-- each page's content will be here -->
 
 {{define "footer"}}
-<footer class="px-8 py-4 absolute bottom-0 right-0">
-    <div> Copyright 2022 lenslocked.com</div>
+<footer class="bg-gradient-to-r from-blue-800 to-indigo-800 text-white absolute bottom-0 w-full">
+   <div class="px-8 py-6 flex items-center">
+      <div class="flex space-x-4 flex-grow divide-x divide-slate-200">
+         <a class="font-semibold hover:text-blue-100" href="/">Home</a>
+         <a class="pl-2 font-semibold hover:text-blue-100" href="/contact">Contact Us</a>
+         <a class="pl-2 font-semibold hover:text-blue-100" href="#">Donate</a>
+      </div>
+      <div> Copyright 2022 lenslocked.com</div>
+   </div>
 </footer>
 </body>
 </html>
