@@ -33,11 +33,15 @@ func main() {
 		"tailwind.gohtml",
 	))))
 
-	r.Get("/signUp", controllers.StaticHandler(views.Must(views.ParseFs(
+	// users controller
+	usersC := controllers.Users{}
+	usersC.Templates.New = views.Must(views.ParseFs(
 		templates.FS,
 		"signup.gohtml",
 		"tailwind.gohtml",
-	))))
+	))
+
+	r.Get("/signup", usersC.NewUser)
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page Not Found", http.StatusNotFound)
