@@ -7,6 +7,14 @@ import (
 	"github.com/psanti93/lenslockedv2.com/views"
 )
 
+type Static struct {
+	Template Template
+}
+
+func (static Static) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	static.Template.Execute(w, nil)
+}
+
 func StaticHandler(tmpl views.Template) http.HandlerFunc {
 	//closure example
 	return func(w http.ResponseWriter, r *http.Request) {

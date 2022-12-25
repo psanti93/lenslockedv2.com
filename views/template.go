@@ -28,18 +28,6 @@ func ParseFs(fs fs.FS, patterns ...string) (Template, error) {
 	}, nil
 }
 
-func Parse(filepath string) (Template, error) {
-	tmpl, err := template.ParseFiles(filepath)
-
-	if err != nil {
-		return Template{}, fmt.Errorf("parsing template: %w", err)
-	}
-
-	return Template{
-		htmlTmpl: tmpl,
-	}, nil
-}
-
 type Template struct {
 	htmlTmpl *template.Template
 }
