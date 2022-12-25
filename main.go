@@ -40,8 +40,8 @@ func main() {
 		"signup.gohtml",
 		"tailwind.gohtml",
 	))
-
 	r.Get("/signup", usersC.NewUser)
+	r.Post("/signup", usersC.CreateUser)
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page Not Found", http.StatusNotFound)
