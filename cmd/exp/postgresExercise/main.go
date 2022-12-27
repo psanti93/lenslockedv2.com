@@ -68,12 +68,35 @@ func main() {
 	}
 
 	fmt.Println("Tables Created")
-	name := "John Santiago"
-	email := "john@test.com"
-	// Insert some data ...
+	// doing this will delete the table users
+	name := "',''); DROP TABLE users; --"
+	email := "bob@test.com"
+
+	// query := fmt.Sprintf(`
+	// 	INSERT INTO users (name, email)
+	// 	VALUES ('%s','%s');
+	// `, name, email)
+	// fmt.Printf("Executing query: %s\n", query)
+
+	// _, err = db.Exec(query)
+
+	/**   RESULT
+
+			Executing query:
+	                INSERT INTO users (name, email)
+	                VALUES ('','');; DROP TABLE users; --','bob@test.com');
+
+			lenslockedv2=# select * from users;
+			ERROR:  relation "users" does not exist
+			LINE 1: select * from users;
+
+		**/
+
+	//whereas using variable placeholders ($1,$2) will prevent an injection like in the previous example
+
 	_, err = db.Exec(`
 		INSERT INTO users(name,email)
-		VALUES ($1, $2);	
+		VALUES ($1, $2);
 	`, name, email)
 
 	if err != nil {
@@ -81,5 +104,13 @@ func main() {
 	}
 
 	fmt.Println("User Created")
+
+	/** RESULT
+		lenslockedv2=# select * from users;
+		id |            name             |    email
+		----+-----------------------------+--------------
+		1 | ',''); DROP TABLE users; -- | bob@test.com
+
+	**/
 
 }
