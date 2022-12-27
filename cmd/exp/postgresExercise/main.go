@@ -45,4 +45,27 @@ func main() {
 		panic(err) // it will panic if the docker container is not spun up
 	}
 	fmt.Println("Connected!") //it's connected but you don't know if it's able to communicate with the DB
+
+	//CREATE a table..
+	_, err = db.Exec(`
+		CREATE TABLE IF NOT EXISTS users (
+		  id SERIAL PRIMARY KEY,
+		  name TEXT,
+		  email TEXT UNIQUE NOT NULL
+		);
+
+		CREATE TABLE IF NOT EXISTS orders (
+		  id SERIAL PRIMARY KEY,
+		  user_id INT NOT NULL,
+		  amount INT,
+		  description TEXT
+
+		);
+	`)
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("Tables Created")
 }
