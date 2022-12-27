@@ -68,4 +68,18 @@ func main() {
 	}
 
 	fmt.Println("Tables Created")
+	name := "John Santiago"
+	email := "john@test.com"
+	// Insert some data ...
+	_, err = db.Exec(`
+		INSERT INTO users(name,email)
+		VALUES ($1, $2);	
+	`, name, email)
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("User Created")
+
 }
