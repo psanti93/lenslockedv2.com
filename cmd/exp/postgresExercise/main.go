@@ -68,48 +68,36 @@ func main() {
 	}
 
 	fmt.Println("Tables Created")
-	// doing this will delete the table users
-	name := "',''); DROP TABLE users; --"
-	email := "bob@test.com"
+	name := "Paul Santiago"
+	email := "paul@test.com"
 
-	// query := fmt.Sprintf(`
-	// 	INSERT INTO users (name, email)
-	// 	VALUES ('%s','%s');
-	// `, name, email)
-	// fmt.Printf("Executing query: %s\n", query)
-
-	// _, err = db.Exec(query)
-
-	/**   RESULT
-
-			Executing query:
-	                INSERT INTO users (name, email)
-	                VALUES ('','');; DROP TABLE users; --','bob@test.com');
-
-			lenslockedv2=# select * from users;
-			ERROR:  relation "users" does not exist
-			LINE 1: select * from users;
-
-		**/
-
-	//whereas using variable placeholders ($1,$2) will prevent an injection like in the previous example
-
-	_, err = db.Exec(`
+	//returns a single item from the DB
+	row := db.QueryRow(`
 		INSERT INTO users(name,email)
-		VALUES ($1, $2);
+		VALUES ($1, $2) RETURNING id;
 	`, name, email)
 
-	if err != nil {
+	//row.Err() // checks for any errors that occur on the sql statement. however not needed since the error will checked in ro.Scan
+	var id int
+	// take the value we got from the DB and store it in the id variable in memory
+	if err := row.Scan(&id); err != nil {
 		panic(err)
 	}
 
-	fmt.Println("User Created")
+	fmt.Printf("User Created. Id = %v", id)
 
 	/** RESULT
-		lenslockedv2=# select * from users;
-		id |            name             |    email
-		----+-----------------------------+--------------
-		1 | ',''); DROP TABLE users; -- | bob@test.com
+
+	lenslockedv2=# select * from users;
+	id |            name             |     email
+	----+-----------------------------+---------------
+	1 | ',''); DROP TABLE users; -- | bob@test.com
+	2 | Paul Santiago               | paul@test.com
+
+
+		Connected!
+		Tables Created
+		User Created. Id = 2
 
 	**/
 
