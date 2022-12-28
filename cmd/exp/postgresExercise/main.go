@@ -25,7 +25,7 @@ func main() {
 
 	cfg := PostgresConfig{
 		Host:     "localhost",
-		Port:     "5432",
+		Port:     "3355",
 		User:     "baloo",
 		Password: "junglebook",
 		DBname:   "lenslockedv2",
