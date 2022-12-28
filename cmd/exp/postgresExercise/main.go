@@ -89,15 +89,14 @@ func main() {
 	/** RESULT
 
 	lenslockedv2=# select * from users;
-	id |            name             |     email
-	----+-----------------------------+---------------
-	1 | ',''); DROP TABLE users; -- | bob@test.com
-	2 | Paul Santiago               | paul@test.com
+	id |     name      |     email
+	----+---------------+---------------
+	1 | Paul Santiago | paul@test.com
 
 
 		Connected!
 		Tables Created
-		User Created. Id = 2
+		User Created. Id = 1
 
 	**/
 
