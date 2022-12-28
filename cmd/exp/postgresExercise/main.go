@@ -68,36 +68,26 @@ func main() {
 	}
 
 	fmt.Println("Tables Created")
-	name := "Paul Santiago"
-	email := "paul@test.com"
 
-	//returns a single item from the DB
+	//Query one row (assuming you insert data in the previous lesson)
+
+	id := 12
+
 	row := db.QueryRow(`
-		INSERT INTO users(name,email)
-		VALUES ($1, $2) RETURNING id;
-	`, name, email)
+		SELECT name, email
+		FROM users
+		WHERE id=$1;
+	`, id)
 
-	//row.Err() // checks for any errors that occur on the sql statement. however not needed since the error will checked in ro.Scan
-	var id int
-	// take the value we got from the DB and store it in the id variable in memory
-	if err := row.Scan(&id); err != nil {
+	var name, email string
+	err = row.Scan(&name, &email)
+	if err == sql.ErrNoRows {
+		fmt.Println("sql error no rows") //will print by default in this code base
+	}
+	if err != nil {
 		panic(err)
 	}
 
-	fmt.Printf("User Created. Id = %v", id)
-
-	/** RESULT
-
-	lenslockedv2=# select * from users;
-	id |     name      |     email
-	----+---------------+---------------
-	1 | Paul Santiago | paul@test.com
-
-
-		Connected!
-		Tables Created
-		User Created. Id = 1
-
-	**/
+	fmt.Printf("User information: name=%s, email=%s\n", name, email)
 
 }
