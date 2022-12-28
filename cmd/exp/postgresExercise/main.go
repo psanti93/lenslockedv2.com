@@ -69,25 +69,22 @@ func main() {
 
 	fmt.Println("Tables Created")
 
-	//Query one row (assuming you insert data in the previous lesson)
+	//Creating Sample Orders
+	userId := 1
 
-	id := 12
+	for i := 1; i <= 5; i++ {
+		amount := i * 100
+		desc := fmt.Sprintf("Fake order #%d", i)
+		_, err := db.Exec(`
+			INSERT INTO orders(user_id,amount,description)
+			VALUES($1,$2,$3)
+		`, userId, amount, desc)
 
-	row := db.QueryRow(`
-		SELECT name, email
-		FROM users
-		WHERE id=$1;
-	`, id)
-
-	var name, email string
-	err = row.Scan(&name, &email)
-	if err == sql.ErrNoRows {
-		fmt.Println("sql error no rows") //will print by default in this code base
-	}
-	if err != nil {
-		panic(err)
+		if err != nil {
+			panic(err)
+		}
 	}
 
-	fmt.Printf("User information: name=%s, email=%s\n", name, email)
+	fmt.Println("Fake orders created")
 
 }
