@@ -68,7 +68,7 @@ func main() {
 
 	usersC.Templates.SignIn = views.Must(views.ParseFs(
 		templates.FS,
-		"sigin.gohtml",
+		"signin.gohtml",
 		"tailwind.gohtml",
 	))
 
