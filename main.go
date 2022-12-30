@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/psanti93/lenslockedv2.com/controllers"
+	"github.com/psanti93/lenslockedv2.com/models"
 	"github.com/psanti93/lenslockedv2.com/templates"
 	"github.com/psanti93/lenslockedv2.com/views"
 )
@@ -33,8 +34,29 @@ func main() {
 		"tailwind.gohtml",
 	))))
 
+	// Set up connection to db
+	cfg := models.DefaultPostgresConfig()
+	db, err := models.Open(cfg)
+	if err != nil {
+		panic(err)
+	}
+
+	defer db.Close()
+	err = db.Ping()
+	fmt.Println("Pinging from main application")
+	if err != nil {
+		panic(err)
+	}
+
+	//Set user service
+	userService := models.UserService{
+		DB: db,
+	}
+
 	// users controller
-	usersC := controllers.Users{}
+	usersC := controllers.Users{
+		UserService: &userService,
+	}
 	usersC.Templates.New = views.Must(views.ParseFs(
 		templates.FS,
 		"signup.gohtml",
