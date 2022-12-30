@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
+	"github.com/psanti93/lenslockedv2.com/models"
 )
 
 type PostgresConfig struct {
@@ -46,66 +47,15 @@ func main() {
 	}
 	fmt.Println("Connected!") //it's connected but you don't know if it's able to communicate with the DB
 
-	//CREATE a table..
-	_, err = db.Exec(`
-		CREATE TABLE IF NOT EXISTS users (
-		  id SERIAL PRIMARY KEY,
-		  name TEXT,
-		  email TEXT UNIQUE NOT NULL
-		);
+	// TESTING the user service (make users table first)
+	us := models.UserService{
+		DB: db,
+	}
 
-		CREATE TABLE IF NOT EXISTS orders (
-		  id SERIAL PRIMARY KEY,
-		  user_id INT NOT NULL,
-		  amount INT,
-		  description TEXT
-
-		);
-	`)
-
+	user, err := us.Create("paul2@paul.com", "paul123")
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println("Tables Created")
-
-	type Order struct {
-		ID          int
-		UserID      int
-		Amount      int
-		Description string
-	}
-
-	var orders []Order
-	userId := 1
-	rows, err := db.Query(`
-		SELECT id, amount, description
-		FROM orders
-		WHERE user_id=$1;
-	`, userId)
-
-	if err != nil {
-		panic(err)
-	}
-
-	defer rows.Close()
-
-	for rows.Next() {
-		var order Order
-		order.UserID = userId
-		err := rows.Scan(&order.ID, &order.Amount, &order.Description)
-		if err != nil {
-			panic(err)
-		}
-		orders = append(orders, order)
-	}
-
-	// checking for errors for rows.Next()
-	err = rows.Err()
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println("Orders", orders)
-
+	fmt.Println(user)
 }
