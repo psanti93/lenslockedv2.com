@@ -33,6 +33,9 @@ func main() {
 		"faq.gohtml",
 		"tailwind.gohtml",
 	))))
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// User Example
 
 	// Set up connection to db
 	cfg := models.DefaultPostgresConfig()
@@ -64,6 +67,7 @@ func main() {
 	))
 	r.Get("/signup", usersC.NewUser)
 	r.Post("/signup", usersC.CreateUser)
+	//////////////////////////////////////////////////////////////////////////////////////////
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page Not Found", http.StatusNotFound)
