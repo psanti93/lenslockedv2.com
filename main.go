@@ -75,6 +75,7 @@ func main() {
 	r.Get("/signup", usersC.NewUser)
 	r.Post("/signup", usersC.CreateUser)
 	r.Get("/signin", usersC.SignIn)
+	r.Post("/signin", usersC.ProcessSignIn)
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 
