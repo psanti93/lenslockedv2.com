@@ -27,13 +27,16 @@ func (u Users) NewUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func (u Users) CreateUser(w http.ResponseWriter, r *http.Request) {
-	if err := r.ParseForm(); err != nil {
-		fmt.Errorf("Error in parsing request: %s:", err)
-		http.Error(w, "There was an error parsing the request", http.StatusBadRequest)
+	email := r.FormValue("email")
+	password := r.FormValue("password")
+
+	user, err := u.UserService.Create(email, password)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, "something went wrong", http.StatusInternalServerError)
 		return
 	}
-	fmt.Fprintf(w, "<p> New User Added! </p>")
-	fmt.Printf("The email address is: %s", r.FormValue("email"))
-	fmt.Printf("The password is: %s", r.FormValue("password"))
+
+	fmt.Fprintf(w, "User created: %+v ", user)
 
 }
