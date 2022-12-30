@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/psanti93/lenslockedv2.com/utils"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
@@ -43,6 +44,33 @@ func (us *UserService) Create(email string, password string) (*User, error) {
 
 	if err != nil {
 		return nil, fmt.Errorf("Create users: %w", err)
+	}
+
+	return &user, nil
+}
+
+func (userService *UserService) Authenticate(email string, password string) (*User, error) {
+	email = strings.ToLower(email)
+	user := User{
+		Email: email,
+	}
+
+	// grabbing the user based on the email
+	row := userService.DB.QueryRow(`
+		SELECT id, password_hash 
+		FROM users WHERE email=$1
+	`, email)
+
+	// returning it's id and password hash
+	err := row.Scan(&user.ID, &user.PasswordHash)
+	if err != nil {
+		return nil, fmt.Errorf("Authenticate: %w", err)
+	}
+
+	// where the authentication logic really happens: makes sure that the password hash and password provided match
+	err = bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(password))
+	if err != nil {
+		return nil, fmt.Errorf("Authenticate: %w", err)
 	}
 
 	return &user, nil
