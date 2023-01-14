@@ -55,7 +55,7 @@ func (userService *UserService) Authenticate(email string, password string) (*Us
 		Email: email,
 	}
 
-	// grabbing the user based on the email
+	// grabbing user id and password hash based on the email
 	row := userService.DB.QueryRow(`
 		SELECT id, password_hash 
 		FROM users WHERE email=$1

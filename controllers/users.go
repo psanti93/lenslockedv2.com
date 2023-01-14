@@ -31,6 +31,7 @@ func (u Users) CreateUser(w http.ResponseWriter, r *http.Request) {
 	email := r.FormValue("email")
 	password := r.FormValue("password")
 
+	// Persists imputs into the DB
 	user, err := u.UserService.Create(email, password)
 	if err != nil {
 		fmt.Println(err)
@@ -64,6 +65,7 @@ func (u Users) ProcessSignIn(w http.ResponseWriter, r *http.Request) {
 	data.Email = r.FormValue("email")
 	data.Password = r.FormValue("password")
 
+	//Uses the DB to check and authenticate email and password
 	user, err := u.UserService.Authenticate(data.Email, data.Password)
 
 	if err != nil {
