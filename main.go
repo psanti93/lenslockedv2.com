@@ -60,18 +60,22 @@ func main() {
 	usersC := controllers.Users{
 		UserService: &userService,
 	}
+
+	//Setting up the signup view
 	usersC.Templates.New = views.Must(views.ParseFs(
 		templates.FS,
 		"signup.gohtml",
 		"tailwind.gohtml",
 	))
 
+	//Setting up the signin view
 	usersC.Templates.SignIn = views.Must(views.ParseFs(
 		templates.FS,
 		"signin.gohtml",
 		"tailwind.gohtml",
 	))
 
+	//routes
 	r.Get("/signup", usersC.NewUser)
 	r.Post("/signup", usersC.CreateUser)
 	r.Get("/signin", usersC.SignIn)
