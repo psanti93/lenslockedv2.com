@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi"
+	"github.com/gorilla/csrf"
 	"github.com/psanti93/lenslockedv2.com/controllers"
 	"github.com/psanti93/lenslockedv2.com/models"
 	"github.com/psanti93/lenslockedv2.com/templates"
@@ -89,6 +90,10 @@ func main() {
 
 	})
 	fmt.Println("Starting the server on :3000...")
+	csrfKey := "gFvi45R4fy5xNBlnEeZtQbfAVCYEIAUX"
 
-	http.ListenAndServe(":3000", r)
+	csrfMw := csrf.Protect([]byte(csrfKey),
+		//TODO: Fix before deploying to production
+		csrf.Secure(false))
+	http.ListenAndServe(":3000", csrfMw(r))
 }
