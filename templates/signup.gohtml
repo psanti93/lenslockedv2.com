@@ -4,6 +4,9 @@
         <h1 class="pt-4 pb-8 text-center text-3xl font-bold text-gray-900">
             Share your Photos today! </h1>
         <form action="/signup" method="post">
+            <div class="hidden">
+                {{.CSRFField}}
+            </div>
             <div>
                 <label for="email">Email Address</label>
                 <input 
