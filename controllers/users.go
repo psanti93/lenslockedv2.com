@@ -23,7 +23,7 @@ func (u Users) NewUser(w http.ResponseWriter, r *http.Request) {
 
 	data.Email = r.FormValue("email")
 
-	u.Templates.New.Execute(w, data)
+	u.Templates.New.Execute(w, r, data)
 
 }
 
@@ -51,7 +51,7 @@ func (u Users) SignIn(w http.ResponseWriter, r *http.Request) {
 
 	data.Email = r.FormValue("email")
 
-	u.Templates.SignIn.Execute(w, data)
+	u.Templates.SignIn.Execute(w, r, data)
 
 }
 
