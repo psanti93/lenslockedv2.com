@@ -4,6 +4,9 @@
         <h1 class="pt-4 pb-8 text-center text-3xl font-bold text-gray-900">
             Welcome Back! </h1>
         <form action="/signin" method="post">
+            <div class="hidden">
+                {{csrfField}}
+            </div>
             <div>
                 <label for="email">Email Address</label>
                 <input 
