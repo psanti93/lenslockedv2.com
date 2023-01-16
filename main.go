@@ -80,6 +80,7 @@ func main() {
 	r.Post("/signup", usersC.CreateUser)
 	r.Get("/signin", usersC.SignIn)
 	r.Post("/signin", usersC.ProcessSignIn)
+	r.Get("/users/currentUser", usersC.CurrentUser)
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 

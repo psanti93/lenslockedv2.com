@@ -84,3 +84,16 @@ func (u Users) ProcessSignIn(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprintf(w, "User authenticated: %+v", user)
 }
+
+func (u Users) CurrentUser(w http.ResponseWriter, r *http.Request) {
+	email, err := r.Cookie("email")
+
+	if err != nil {
+		fmt.Errorf("cookie error: %w", err)
+		return
+	}
+
+	fmt.Fprintf(w, "Email cookie:%s\n", email.Value)
+	fmt.Fprintf(w, "Headers: %+v\n", r.Header["Cookie"]) //view the header value for cookie. Header is a giant map of headers from the request
+
+}
