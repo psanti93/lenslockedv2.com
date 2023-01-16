@@ -1,8 +1,10 @@
 package views
 
 import (
+	"bytes"
 	"fmt"
 	"html/template"
+	"io"
 	"io/fs"
 	"log"
 	"net/http"
@@ -25,8 +27,8 @@ func ParseFs(fs fs.FS, patterns ...string) (Template, error) {
 	// 1. create a placeholder function of the crsField first
 	tmpl = tmpl.Funcs(
 		template.FuncMap{
-			"csrfField": func() template.HTML {
-				return `<!-- TODO: Implement the csrfField -->`
+			"csrfField": func() (template.HTML, error) {
+				return "", fmt.Errorf("crsfField not implemented")
 			},
 		},
 	)
@@ -67,11 +69,20 @@ func (t Template) Execute(w http.ResponseWriter, r *http.Request, data interface
 		})
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	// Pros:
+	//	1. prevents a half rendered page if there is an error
+	// 	2. you can set the status so you don't get superfluous
+	// Cons:
+	//	1. Can cause performance issue if it's a giant page that you're rendering to in memory. Memory hit
 
-	if err = tmpl.Execute(w, data); err != nil {
+	var buf bytes.Buffer // you are writing into memory
+	if err = tmpl.Execute(&buf, data); err != nil {
 		log.Printf("Executing template:%v", err)
 		http.Error(w, "There was an error executing the template", http.StatusInternalServerError)
 		return
 	}
+
+	// copies data from the buffer to the response writer
+	io.Copy(w, &buf)
 
 }
