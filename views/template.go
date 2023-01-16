@@ -6,6 +6,8 @@ import (
 	"io/fs"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/csrf"
 )
 
 func Must(t Template, err error) Template {
@@ -44,10 +46,18 @@ type Template struct {
 }
 
 func (t Template) Execute(w http.ResponseWriter, r *http.Request, data interface{}) {
+	tmpl := t.htmlTmpl
+	//Example of a race condtion. Where multple objects will be using the same object with multple requests
+	tmpl = tmpl.Funcs(
+		template.FuncMap{
+			"csrfField": func() template.HTML {
+				return csrf.TemplateField(r)
+			},
+		})
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
-	if err := t.htmlTmpl.Execute(w, data); err != nil {
+	if err := tmpl.Execute(w, data); err != nil {
 		log.Printf("Executing template:%v", err)
 		http.Error(w, "There was an error executing the template", http.StatusInternalServerError)
 		return
