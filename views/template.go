@@ -50,7 +50,7 @@ type Template struct {
 
 func (t Template) Execute(w http.ResponseWriter, r *http.Request, data interface{}) {
 
-	// Solve race condition by creating a copy of template for each request using clone
+	// Solve race condition by creating a copy of template for each request using Clone()
 	tmpl, err := t.htmlTmpl.Clone()
 
 	if err != nil {
@@ -59,7 +59,7 @@ func (t Template) Execute(w http.ResponseWriter, r *http.Request, data interface
 		return
 	}
 
-	// 2. when we execute the populate the placeholder that we define in 1
+	// 2. when we execute we populate the placeholder that we define in 1
 
 	tmpl = tmpl.Funcs(
 		template.FuncMap{
